@@ -7,4 +7,8 @@ function(input, output, session) {
   observeEvent(input$submit, {
     shinyalert("Sucessfull!",  type = "success", "Your review has been submitted.", timer = 3000)
   })
+  
+  observeEvent(input$sign_up, {
+    shinyalert::shinyalert("Thank You!", "Access to the app is currently available only via invite. Please email shahronak47@yahoo.in to get access to the app.")
+  })
 }
