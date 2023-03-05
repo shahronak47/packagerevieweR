@@ -1,17 +1,10 @@
-# Define server logic required to draw a histogram
 function(input, output, session) {
-
-    output$distPlot <- renderPlot({
-
-        # generate bins based on input$bins from ui.R
-        x    <- faithful[, 2]
-        bins <- seq(min(x), max(x), length.out = input$bins + 1)
-
-        # draw the histogram with the specified number of bins
-        hist(x, breaks = bins, col = 'darkgray', border = 'white',
-             xlab = 'Waiting time to next eruption (in mins)',
-             main = 'Histogram of waiting times')
-
-    })
-
+  
+  updateSelectizeInput(session, 'selected_package', choices = all_packages, server = TRUE)
+  
+  output$text <- renderText({sprintf("You rated it as %s stars", input$ratings)})
+  
+  observeEvent(input$submit, {
+    shinyalert("Sucessfull!",  type = "success", "Your review has been submitted.", timer = 3000)
+  })
 }
