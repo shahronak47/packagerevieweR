@@ -1,6 +1,6 @@
 function(input, output, session) {
   
-  rv <- reactiveValues(is_login = FALSE)
+  rv <- reactiveValues(is_login = FALSE, code = NULL)
   
   updateSelectizeInput(session, 'selected_package', choices = all_packages, server = TRUE)
   
@@ -52,15 +52,22 @@ function(input, output, session) {
   
   observeEvent(input$verification_btn, {
     if(is_valid_email(input$sign_up_email)) {
-      code <- generate_random_code()
       shinyjs::show('verify')
+      rv$code <- generate_random_code()
+      email_template(rv$code) |>
+        smtp_send(
+          to = input$sign_up_email,
+          from = "shahronak47@gmail.com",
+          subject = "Code Email",
+          credentials = creds_file("gmail_creds")
+        )
     } else {
       shinyalert("Wrong email", paste("The email entered", input$sign_up_email, "is not a valid email."))
     }
   })
   
   observeEvent(input$code_btn, {
-    if(input$code == "123456"){
+    if(input$code == rv$code){
       removeModal()
       shinyalert("Success!!", "Email address verified", type = "success", immediate = TRUE, timer = 3000)
     }

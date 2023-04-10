@@ -4,6 +4,7 @@ library(shiny)
 library(shinyRatings)
 library(shinyalert)
 library(shinyjs)
+library(blastula)
 
 tmp <- available.packages()
 all_packages <- rownames(tmp)
@@ -19,4 +20,16 @@ is_valid_email <- function(email) {
 
 generate_random_code <- function() {
   paste0(sample(0:9, 6, replace = TRUE), collapse = '')
+}
+
+email_template <- function(code) {
+  date_time <- add_readable_time()
+  
+  email <-
+    compose_email(
+      body = md(glue::glue(
+        "Hello, This is the {code} to use.")),
+      footer = md(glue::glue("Email sent on {date_time}."))
+    )
+  email
 }
