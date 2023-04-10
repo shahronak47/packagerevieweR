@@ -37,18 +37,37 @@ function(input, output, session) {
         tagList(
           textInput('sign_up_email', 'Enter your email'),
           actionButton('verification_btn', 'Send Verification code'),
-          textInput('code', 'Enter verification code')
+          br(), br(),
+          div(id = "verify", 
+            fluidRow(
+              textInput('code', 'Enter verification code'), 
+              actionButton('code_btn', 'Verify')
+            )
+          )
         )
       )
     )
-    shinyjs::hide('code')
+    shinyjs::hide('verify')
   })
   
   observeEvent(input$verification_btn, {
     if(is_valid_email(input$sign_up_email)) {
-      shinyjs::show('code')
+      code <- generate_random_code()
+      shinyjs::show('verify')
     } else {
       shinyalert("Wrong email", paste("The email entered", input$sign_up_email, "is not a valid email."))
     }
+  })
+  
+  observeEvent(input$code_btn, {
+    if(input$code == "123456"){
+      removeModal()
+      shinyalert("Success!!", "Email address verified", type = "success", immediate = TRUE, timer = 3000)
+    }
+    else {
+      shinyalert("Error!!", "Incorrect code entered. Try again!", type = "error", immediate = TRUE)
+    }
+    
+      
   })
 }

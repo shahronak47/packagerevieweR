@@ -16,3 +16,7 @@ is_valid_email <- function(email) {
   # Taken from https://www.r-bloggers.com/2012/07/validating-email-adresses-in-r/
   grepl("\\<[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}\\>", as.character(email), ignore.case=TRUE)
 }
+
+generate_random_code <- function() {
+  paste0(sample(0:9, 6, replace = TRUE), collapse = '')
+}
