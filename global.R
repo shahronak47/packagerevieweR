@@ -23,12 +23,12 @@ generate_random_code <- function() {
 }
 
 email_template <- function(code) {
-  date_time <- add_readable_time()
+  date_time <- add_readable_time(lubridate::now(tz = 'UTC'))
   
   email <-
     compose_email(
       body = md(glue::glue(
-        "Hello, This is the {code} to use.")),
+        "Hello, please use this {code} to verify your account.")),
       footer = md(glue::glue("Email sent on {date_time}."))
     )
   email
