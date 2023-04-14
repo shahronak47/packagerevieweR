@@ -6,6 +6,10 @@ library(shinyalert)
 library(shinyjs)
 library(blastula)
 
+## Source files
+
+source('db_file.R')
+
 tmp <- available.packages()
 all_packages <- rownames(tmp)
 
@@ -33,3 +37,5 @@ email_template <- function(code) {
     )
   email
 }
+
+
