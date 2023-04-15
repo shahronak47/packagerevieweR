@@ -17,12 +17,14 @@ create_connection_object <- function() {
 
 
 insert_in_table <- function(email, username, password, first_name, last_name, otp_code, con) {
-    # TO DO - Add a new column is_email_verified logical with TRUE/FALSE values or 1/0
+    
+    max_id <- DBI::dbGetQuery(con, 'select max(id) as id from signup_data.users')
+    max_id <- max_id$id + 1
     res <- DBI::dbSendQuery(con, glue::glue(                          
     "INSERT INTO users (id, email, username, password, first_name, last_name, otp_code) 
-    VALUES (2, '{email}', '{username}', '{password}', '{first_name}', '{last_name}', '{otp_code}');"))
+    VALUES ({max_id}, '{email}', '{username}', '{password}', '{first_name}', '{last_name}', '{otp_code}');"))
     if(NROW(res) > 0) {
       rows_affected <- DBI::dbGetRowsAffected(res)
-      message(paste0("User was succesfully inserted into database"))
+      message(glue::glue("User {username} was succesfully inserted into database"))
     }
 }

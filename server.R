@@ -28,11 +28,12 @@ function(input, output, session) {
     }
   })
   
+  #### Submit the review ####
   observeEvent(input$submit, {
     shinyalert("Sucessfull!",  type = "success", "Your review has been submitted.", timer = 3000)
   })
   
-  #Sign Up modal
+  #### Sign Up modal ####
   observeEvent(input$sign_up, {
     showModal(
       modalDialog(title = "Sign Up!", 
@@ -56,7 +57,7 @@ function(input, output, session) {
     )
     shinyjs::hide('verify')
   })
-  
+  #### OTP Verification ####
   observeEvent(input$verification_btn, {
     if(is_valid_email(input$sign_up_email)) {
       shinyjs::show('verify')
@@ -73,7 +74,7 @@ function(input, output, session) {
       shinyalert("Wrong email", paste("The email entered", input$sign_up_email, "is not a valid email."))
     }
   })
-  
+  #### OTP Verify ####
   observeEvent(input$code_btn, {
     if(input$code == rv$otp_code){
       removeModal()
