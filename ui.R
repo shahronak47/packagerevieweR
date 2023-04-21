@@ -3,7 +3,7 @@ fluidPage(
     shiny::includeCSS('www/stylesheet.css'),
     shiny::fluidRow(
       column(10, titlePanel("Package Reviewer")),  
-      column(2, div(class = "sign_up_btn", actionButton("sign_up", "Sign Up!")))
+      column(2, div(class = "sign_up_btn", id = "sign_up_btn", actionButton("sign_up", "Sign Up!")))
     ),
     sidebarLayout(
       sidebarPanel(id = "login",
@@ -13,7 +13,8 @@ fluidPage(
       ), 
       mainPanel(
              selectizeInput('selected_package', 'Select a package to view the reviews.', choices = NULL),
-             uiOutput('your_review')
+             uiOutput('your_review'), 
+             dataTableOutput('review_table')
       )  
     )
 )

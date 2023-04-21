@@ -28,3 +28,16 @@ insert_in_table <- function(email, username, password, first_name, last_name, ot
       message(glue::glue("User {username} was succesfully inserted into database"))
     }
 }
+
+insert_review <- function(username, no_of_stars, review, selected_package, con) {
+  DBI::dbSendQuery(con, glue::glue("
+  INSERT INTO reviews (username, no_of_stars, review, package_name)
+  VALUES ('{username}', {no_of_stars}, '{review}', '{selected_package}');"))
+}
+
+get_review <- function(selected_package, con) {
+  DBI::dbGetQuery(con, glue::glue("SELECT username, no_of_stars, review from reviews where package_name = '{selected_package}'"))
+}
+
+
+

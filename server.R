@@ -25,11 +25,13 @@ function(input, output, session) {
     if(correct_login(input$username, input$password)) {
       rv$is_login <- TRUE
       hide('login')
+      hide('sign_up_btn')
     }
   })
   
   #### Submit the review ####
   observeEvent(input$submit, {
+    insert_review(input$username, input$ratings, input$review, input$selected_package, rv$con)
     shinyalert("Sucessfull!",  type = "success", "Your review has been submitted.", timer = 3000)
   })
   
@@ -57,7 +59,7 @@ function(input, output, session) {
     )
     shinyjs::hide('verify')
   })
-  #### OTP Verification ####
+  #### Send email OTP Verification ####
   observeEvent(input$verification_btn, {
     if(is_valid_email(input$sign_up_email)) {
       shinyjs::show('verify')
@@ -84,7 +86,13 @@ function(input, output, session) {
     else {
       shinyalert("Error!!", "Incorrect code entered. Try again!", type = "error", immediate = TRUE)
     }
-    
-      
   })
+  
+  #### Fetch reviews for selected package ####
+  observeEvent(input$selected_package, {
+    output$review_table <- renderDataTable({
+      get_review(input$selected_package, rv$con)
+    })
+  })
+  
 }
