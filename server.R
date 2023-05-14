@@ -16,7 +16,8 @@ function(input, output, session) {
       shinyRatings('ratings'), 
       textOutput('text'), 
       textAreaInput("review", "Add your Review (optional)"),
-      actionButton('submit', 'Submit')
+      actionButton('submit', 'Submit'),
+      br(), br()
     )
   })
   
@@ -90,9 +91,32 @@ function(input, output, session) {
   
   #### Fetch reviews for selected package ####
   observeEvent(input$selected_package, {
-    output$review_table <- renderDataTable({
-      get_review(input$selected_package, rv$con)
+    dt <- get_review(input$selected_package, rv$con)
+    
+    output$avg_box <- renderUI({
+      tagList(
+        div(class = "h1-span-container",
+          h1(mean(dt$no_of_stars)),
+          span("average rating")
+        )
+      )
+    })
+    
+    output$review_table <- renderUI({
+      req(input$selected_package)
+        tagList(
+          h3("User Reviews : "),
+          br(),
+          div(class = "container-box",
+            lapply(seq_len(nrow(dt)), function(i) {
+              tagList(
+                p(dt$username[i]),
+                shinyRatings(paste0(dt$username[i], '-star'), default = dt$no_of_stars[i], disabled = TRUE),
+                p(dt$review[i])
+              )
+            })
+        )
+      )
     })
   })
-  
 }

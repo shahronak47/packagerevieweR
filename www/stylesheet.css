@@ -1,3 +1,19 @@
 .sign_up_btn {
   margin-top: 25px;
 }
+
+.h1-span-container {
+  display: flex;
+  align-items: center;
+}
+
+h1 {
+  margin-right: 10px;
+}
+
+.container-box {
+  border: 3px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}

@@ -5,7 +5,7 @@ library(shinyRatings)
 library(shinyalert)
 library(shinyjs)
 library(blastula)
-
+library(bslib)
 ## Source files
 
 source('db_file.R')
