@@ -111,7 +111,10 @@ function(input, output, session) {
             lapply(seq_len(nrow(dt)), function(i) {
               tagList(
                 p(dt$username[i]),
-                shinyRatings(paste0(dt$username[i], '-star'), default = dt$no_of_stars[i], disabled = TRUE),
+                # plot_ly(type = "indicator",mode = "gauge+number",value = dt$no_of_stars[i],
+                #         gauge = list(axis = list(range = c(0, 5)),  
+                #                      bar = list(color = "steelblue"))
+                #         ),
                 p(dt$review[i])
               )
             })

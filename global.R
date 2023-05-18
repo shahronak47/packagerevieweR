@@ -10,8 +10,8 @@ library(bslib)
 
 source('db_file.R')
 
-tmp <- available.packages()
-all_packages <- rownames(tmp)
+#tmp <- available.packages()
+#all_packages <- rownames(tmp)
 
 correct_login <- function(user, pass) {
   user == "shahronak47" && pass == "test"

@@ -31,8 +31,8 @@ insert_in_table <- function(email, username, password, first_name, last_name, ot
 
 insert_review <- function(username, no_of_stars, review, selected_package, con) {
   DBI::dbSendQuery(con, glue::glue("
-  INSERT INTO reviews (username, no_of_stars, review, package_name)
-  VALUES ('{username}', {no_of_stars}, '{review}', '{selected_package}');"))
+  INSERT INTO reviews (username, no_of_stars, review, package_name, language)
+  VALUES ('{username}', {no_of_stars}, '{review}', '{selected_package}', 'R');"))
 }
 
 get_review <- function(selected_package, con) {
