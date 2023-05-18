@@ -13,8 +13,9 @@ source('db_file.R')
 #tmp <- available.packages()
 #all_packages <- rownames(tmp)
 
-correct_login <- function(user, pass) {
-  user == "shahronak47" && pass == "test"
+correct_login <- function(user, pass, con) {
+  out <- DBI::dbGetQuery(con, glue::glue("SELECT password from users where username = '{user}'"))
+  out$password == pass
 }
 
 is_valid_email <- function(email) {

@@ -23,7 +23,7 @@ function(input, output, session) {
   
   #### On Login ####
   observeEvent(input$login_btn, {
-    if(correct_login(input$username, input$password)) {
+    if(correct_login(input$username, input$password, rv$con)) {
       rv$is_login <- TRUE
       hide('login')
       hide('sign_up_btn')
