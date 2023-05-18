@@ -63,6 +63,7 @@ function(input, output, session) {
   #### Send email OTP Verification ####
   observeEvent(input$verification_btn, {
     if(is_valid_email(input$sign_up_email)) {
+      check_username(input$sign_up_username, rv$con)
       shinyjs::show('verify')
       #rv$otp_code <- generate_random_code()
       rv$otp_code <- 123

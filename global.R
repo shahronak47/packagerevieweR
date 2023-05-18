@@ -10,8 +10,8 @@ library(bslib)
 
 source('db_file.R')
 
-#tmp <- available.packages()
-#all_packages <- rownames(tmp)
+tmp <- available.packages()
+all_packages <- rownames(tmp)
 
 correct_login <- function(user, pass, con) {
   out <- DBI::dbGetQuery(con, glue::glue("SELECT password from users where username = '{user}'"))
@@ -37,6 +37,13 @@ email_template <- function(code) {
       footer = md(glue::glue("Email sent on {date_time}."))
     )
   email
+}
+
+check_username <- function(username, con) {
+  out <- DBI::dbGetQuery(con, glue::glue("SELECT * from users where username = '{username}'"))
+  if(nrow(out) > 0) {
+    shinyalert("Error!!", "Username is taken. Please choose another username.", type = "error", immediate = TRUE)
+  }
 }
 
 
