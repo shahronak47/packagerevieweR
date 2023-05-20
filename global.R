@@ -8,6 +8,7 @@ library(blastula)
 library(bslib)
 ## Source files
 
+options(repos = c("CRAN" = "https://cran.rstudio.com/"))
 source('db_file.R')
 
 tmp <- available.packages()
