@@ -15,7 +15,8 @@ fluidPage(
              selectizeInput('selected_package', 'Select a package to view the reviews.', choices = NULL),
              shinycssloaders::withSpinner(uiOutput("avg_box")),
              uiOutput('your_review'), 
-             shinycssloaders::withSpinner(uiOutput('review_table'))
+             h3("User Reviews : "),
+             shinycssloaders::withSpinner(dataTableOutput('review_table'))
       )  
     )
 )

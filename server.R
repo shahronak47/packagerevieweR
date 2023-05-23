@@ -65,15 +65,15 @@ function(input, output, session) {
     if(is_valid_email(input$sign_up_email)) {
       check_username(input$sign_up_username, rv$con)
       shinyjs::show('verify')
-      #rv$otp_code <- generate_random_code()
-      rv$otp_code <- 123
-      # email_template(rv$otp_code) |>
-      #   smtp_send(
-      #     to = input$sign_up_email,
-      #     from = "shahronak47@gmail.com",
-      #     subject = "Code Email",
-      #     credentials = creds_file("gmail_creds")
-      #   )
+      rv$otp_code <- generate_random_code()
+      #rv$otp_code <- 123
+      email_template(rv$otp_code) |>
+        smtp_send(
+          to = input$sign_up_email,
+          from = "shahronak47@gmail.com",
+          subject = "Code Email",
+          credentials = creds_file("gmail_creds")
+        )
     } else {
       shinyalert("Wrong email", paste("The email entered", input$sign_up_email, "is not a valid email."))
     }
@@ -103,24 +103,13 @@ function(input, output, session) {
       )
     })
     
-    output$review_table <- renderUI({
+    output$review_table <- DT::renderDataTable({
       req(input$selected_package)
-        tagList(
-          h3("User Reviews : "),
-          br(),
-          div(class = "container-box",
-            lapply(seq_len(nrow(dt)), function(i) {
-              tagList(
-                p(dt$username[i]),
-                # plot_ly(type = "indicator",mode = "gauge+number",value = dt$no_of_stars[i],
-                #         gauge = list(axis = list(range = c(0, 5)),  
-                #                      bar = list(color = "steelblue"))
-                #         ),
-                p(dt$review[i])
-              )
-            })
-        )
-      )
+      DT::datatable(dt, 
+        options = list(columnDefs = list(list(width = '50px', targets = c(0, 1)), 
+                                         list(width = '100px', targets =c(2)))))
     })
+    
   })
+  
 }

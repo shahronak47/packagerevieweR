@@ -6,6 +6,7 @@ library(shinyalert)
 library(shinyjs)
 library(blastula)
 library(bslib)
+library(DT)
 ## Source files
 
 options(repos = c("CRAN" = "https://cran.rstudio.com/"))
