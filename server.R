@@ -1,6 +1,6 @@
 function(input, output, session) {
   
-  rv <- reactiveValues(is_login = FALSE, otp_code = NULL, con = NULL)
+  rv <- reactiveValues(is_login = FALSE, otp_code = NULL, con = NULL, is_valid = TRUE)
   rv$con <- create_connection_object()
   
   updateSelectizeInput(session, 'selected_package', choices = all_packages, server = TRUE)
@@ -63,10 +63,11 @@ function(input, output, session) {
   #### Send email OTP Verification ####
   observeEvent(input$verification_btn, {
     if(is_valid_email(input$sign_up_email)) {
-      check_username(input$sign_up_username, rv$con)
+      check_username(input$sign_up_username, rv)
+      check_email(input$sign_up_email, rv)
+      if(rv$is_valid) {
       shinyjs::show('verify')
       rv$otp_code <- generate_random_code()
-      #rv$otp_code <- 123
       email_template(rv$otp_code) |>
         smtp_send(
           to = input$sign_up_email,
@@ -74,6 +75,7 @@ function(input, output, session) {
           subject = "Code Email",
           credentials = creds_file("gmail_creds")
         )
+      }
     } else {
       shinyalert("Wrong email", paste("The email entered", input$sign_up_email, "is not a valid email."))
     }

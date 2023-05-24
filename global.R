@@ -41,10 +41,23 @@ email_template <- function(code) {
   email
 }
 
-check_username <- function(username, con) {
-  out <- DBI::dbGetQuery(con, glue::glue("SELECT * from users where username = '{username}'"))
+check_username <- function(username, rv) {
+  out <- DBI::dbGetQuery(rv$con, glue::glue("SELECT * from users where username = '{username}'"))
   if(nrow(out) > 0) {
     shinyalert("Error!!", "Username is taken. Please choose another username.", type = "error", immediate = TRUE)
+    rv$is_valid <- FALSE
+  } else {
+    rv$is_valid <- TRUE
+  }
+}
+
+check_email <- function(email, rv) {
+  out <- DBI::dbGetQuery(rv$con, glue::glue("SELECT * from users where email = '{email}'"))
+  if(nrow(out) > 0) {
+    shinyalert("Error!!", "Email is already registered!. Please choose another username.", type = "error", immediate = TRUE)
+    rv$is_valid <- FALSE
+  } else {
+    rv$is_valid <- TRUE
   }
 }
 
