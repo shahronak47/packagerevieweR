@@ -42,11 +42,11 @@ function(input, output, session) {
       modalDialog(title = "Sign Up!", 
         tagList(
           # TO DO - Arrange them next to each other in 2 columns instead of doing it one after another in a single column
-          textInput('first_name', 'First Name'), 
-          textInput('last_name', 'Last Name'),
-          textInput('sign_up_username', 'Pick a username'),
-          passwordInput('sign_up_password', 'Select your password'),
-          textInput('sign_up_email', 'Enter your email'),
+          textInput('first_name', 'First Name *'), 
+          textInput('last_name', 'Last Name *'),
+          textInput('sign_up_username', 'Pick a username *'),
+          passwordInput('sign_up_password', 'Select your password *'),
+          textInput('sign_up_email', 'Enter your email *'),
           actionButton('verification_btn', 'Send Verification code'),
           br(), br(),
           div(id = "verify", 
@@ -97,9 +97,11 @@ function(input, output, session) {
     dt <- get_review(input$selected_package, rv$con)
     
     output$avg_box <- renderUI({
+      mn <- mean(dt$no_of_stars)
+      if(is.na(mn)) mn <- "No"
       tagList(
         div(class = "h1-span-container",
-          h1(mean(dt$no_of_stars)),
+          h1(mn),
           span("average rating")
         )
       )
