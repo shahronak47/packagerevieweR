@@ -34,6 +34,7 @@ function(input, output, session) {
   observeEvent(input$submit, {
     insert_review(input$username, input$ratings, input$review, input$selected_package, rv$con)
     shinyalert("Sucessfull!",  type = "success", "Your review has been submitted.", timer = 3000)
+    updateTextInput(session, "review", value = "")
   })
   
   #### Sign Up modal ####
