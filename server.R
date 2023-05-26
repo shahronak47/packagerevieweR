@@ -11,7 +11,7 @@ function(input, output, session) {
   })
   
   output$your_review <- renderUI({
-    req(rv$is_login)
+    req(rv$is_login, rv$not_submitted)
     tagList(
       shinyRatings('ratings'), 
       textOutput('text'), 
@@ -95,7 +95,9 @@ function(input, output, session) {
   #### Fetch reviews for selected package ####
   observeEvent(input$selected_package, {
     dt <- get_review(input$selected_package, rv$con)
-    
+    # If this user has already not submitted a review for this package
+    if(rv$is_login && !input$username %in% dt$username) rv$not_submitted <- TRUE
+      
     output$avg_box <- renderUI({
       mn <- mean(dt$no_of_stars)
       if(is.na(mn)) mn <- "No"
