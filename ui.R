@@ -7,7 +7,7 @@ fluidPage(
     ),
     sidebarLayout(
       sidebarPanel(id = "login",
-            textInput('username', 'Username/Email'), 
+            textInput('username', 'Username'), 
             passwordInput('password', 'Password', placeholder = 'Enter your password'), 
             actionButton('login_btn', 'Login')
       ), 

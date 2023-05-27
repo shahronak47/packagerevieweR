@@ -27,6 +27,8 @@ function(input, output, session) {
       rv$is_login <- TRUE
       hide('login')
       hide('sign_up_btn')
+    } else {
+      shinyalert("Error!", "Wrong username/password combination")
     }
   })
   
