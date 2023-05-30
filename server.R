@@ -1,6 +1,6 @@
 function(input, output, session) {
   
-  rv <- reactiveValues(is_login = FALSE, otp_code = NULL, con = NULL, is_valid = TRUE)
+  rv <- reactiveValues(is_login = FALSE, otp_code = NULL, con = NULL, is_valid = TRUE, not_submitted = FALSE)
   rv$con <- create_connection_object()
   
   updateSelectizeInput(session, 'selected_package', choices = all_packages, server = TRUE)
@@ -11,14 +11,16 @@ function(input, output, session) {
   })
   
   output$your_review <- renderUI({
-    req(rv$is_login, rv$not_submitted)
-    tagList(
-      shinyRatings('ratings'), 
-      textOutput('text'), 
-      textAreaInput("review", "Add your Review (optional)"),
-      actionButton('submit', 'Submit'),
-      br(), br()
-    )
+    req(rv$is_login)
+    if(isTRUE(rv$not_submitted)) {
+      tagList(
+        shinyRatings('ratings'), 
+        textOutput('text'), 
+        textAreaInput("review", "Add your Review (optional)"),
+        actionButton('submit', 'Submit'),
+        br(), br()
+      )
+    }
   })
   
   #### On Login ####
@@ -99,7 +101,7 @@ function(input, output, session) {
   observeEvent(input$selected_package, {
     dt <- get_review(input$selected_package, rv$con)
     # If this user has already not submitted a review for this package
-    if(rv$is_login && !input$username %in% dt$username) rv$not_submitted <- TRUE
+    rv$not_submitted <- rv$is_login && !input$username %in% dt$username
       
     output$avg_box <- renderUI({
       mn <- mean(dt$no_of_stars)
