@@ -1,22 +1,21 @@
-fluidPage(
+page_sidebar(
+    title = "Package Reviewer",
     shinyjs::useShinyjs(),
     shiny::includeCSS('www/stylesheet.css'),
-    shiny::fluidRow(
-      column(10, titlePanel("Package Reviewer")),  
-      column(2, div(class = "sign_up_btn", id = "sign_up_btn", actionButton("sign_up", "Sign Up!")))
-    ),
-    sidebarLayout(
-      sidebarPanel(id = "login",
+    theme = bs_theme(bootswatch = "solar"),
+    sidebar = sidebar(
             textInput('username', 'Username'), 
             passwordInput('password', 'Password', placeholder = 'Enter your password'), 
-            actionButton('login_btn', 'Login')
+            actionButton('login_btn', 'Login'), 
+            br(),
+            p("Don't have an account? Sign up below!"),
+            div(class = "sign_up_btn", id = "sign_up_btn", actionButton("sign_up", "Sign Up!")),
       ), 
-      mainPanel(
+      card(
              selectizeInput('selected_package', 'Select a package to view the reviews.', choices = NULL),
              shinycssloaders::withSpinner(uiOutput("avg_box")),
              uiOutput('your_review'), 
              h3("User Reviews : "),
              shinycssloaders::withSpinner(dataTableOutput('review_table'))
       )  
-    )
-)
+  )
