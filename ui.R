@@ -22,12 +22,8 @@ page_navbar(
          shinycssloaders::withSpinner(dataTableOutput('review_table'))
       )  
     ), 
-    # bslib::nav_panel(title = "About",
-    #                  p("About")
-    # ),
-    # bslib::nav_panel(title = "Contact",
-    #                  p("Contact")
-    # ),
+    bslib::nav_panel(title = "About",about_text()),
+    bslib::nav_panel(title = "What's Next?",next_text()),
     nav_spacer(),
     nav_item(
       input_dark_mode(id = "dark_mode", mode = "light")
