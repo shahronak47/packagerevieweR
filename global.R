@@ -7,6 +7,7 @@ library(shinyjs)
 library(blastula)
 library(bslib)
 library(DT)
+library(digest)
 ## Source files
 
 options(repos = c("CRAN" = "https://cran.rstudio.com/"))
@@ -17,7 +18,7 @@ all_packages <- rownames(tmp)
 
 correct_login <- function(user, pass, con) {
   out <- DBI::dbGetQuery(con, glue::glue("SELECT password from users where username = '{user}'"))
-  out$password %in% pass
+  out$password %in% digest::digest(pass)
 }
 
 is_valid_email <- function(email) {
