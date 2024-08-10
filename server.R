@@ -89,7 +89,8 @@ function(input, output, session) {
   observeEvent(input$code_btn, {
     if(input$code == rv$otp_code){
       removeModal()
-      insert_in_table(input$sign_up_email, input$sign_up_username, input$sign_up_password, input$first_name, input$last_name, rv$otp_code, rv$con)
+      password <- digest::digest(input$sign_up_password)
+      insert_in_table(input$sign_up_email, input$sign_up_username, password, input$first_name, input$last_name, rv$otp_code, rv$con)
       shinyalert("Success!!", "Email address verified", type = "success", immediate = TRUE, timer = 3000)
     }
     else {
