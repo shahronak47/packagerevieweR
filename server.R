@@ -44,21 +44,27 @@ function(input, output, session) {
   #### Sign Up modal ####
   observeEvent(input$sign_up, {
     showModal(
-      modalDialog(title = "Sign Up!", 
+      modalDialog(
+        title = "Sign Up!", 
         tagList(
-          # TO DO - Arrange them next to each other in 2 columns instead of doing it one after another in a single column
-          textInput('first_name', 'First Name *'), 
-          textInput('last_name', 'Last Name *'),
-          textInput('sign_up_username', 'Pick a username *'),
-          passwordInput('sign_up_password', 'Select your password *'),
-          textInput('sign_up_email', 'Enter your email *'),
-          actionButton('verification_btn', 'Send Verification code'),
+          fluidRow(
+            column(6, textInput('first_name', 'First Name *')), 
+            column(6, textInput('last_name', 'Last Name *'))
+          ),
+          fluidRow(
+            column(6, textInput('sign_up_username', 'Pick a username *')), 
+            column(6, passwordInput('sign_up_password', 'Select your password *'))
+          ),
+          fluidRow(
+            column(6, textInput('sign_up_email', 'Enter your email *')),
+            column(6, actionButton('verification_btn', 'Send Verification code'))
+          ),
           br(), br(),
           div(id = "verify", 
-            fluidRow(
-              textInput('code', 'Enter verification code'), 
-              actionButton('code_btn', 'Verify')
-            )
+              fluidRow(
+                column(6, textInput('code', 'Enter verification code')), 
+                column(6, actionButton('code_btn', 'Verify'))
+              )
           )
         )
       )
