@@ -1,4 +1,6 @@
-# packagerevieweR
+# Package Reviewer
+
+[![Package Reviewer](https://img.shields.io/endpoint?url=https://cloud.cypress.io/badge/simple/dfisns&style=flat&logo=cypress)](https://cloud.cypress.io/projects/dfisns/runs)
 
 This is an R shiny app for reviewing R packages. The app is very simple to use. Viewing the reviews does not require any login however, if you want to post a review you need to sign up with your email address. 
 
